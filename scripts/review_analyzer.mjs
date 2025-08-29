@@ -2,7 +2,7 @@
 import fs from 'fs';
 import path from 'path';
 import minimist from 'minimist';
-import gplay from 'google-play-scraper';
+import * as gplay from 'google-play-scraper';
 
 const args = minimist(process.argv.slice(2), {
   string: ['url', 'out', 'sort'],

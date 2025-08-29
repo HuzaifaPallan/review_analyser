@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import gplay from 'google-play-scraper';
+import * as gplay from 'google-play-scraper';
 
 type Params = { params: { bundleId: string } };
 
