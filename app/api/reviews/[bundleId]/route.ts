@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { reviews as fetchReviews, sort as reviewSort } from 'google-play-scraper';
+import gplay from 'google-play-scraper';
 
 type Params = { params: { bundleId: string } };
 
@@ -9,14 +9,14 @@ export async function GET(request: Request, { params }: Params) {
   const max = Math.min(parseInt(searchParams.get('max') || '100', 10), 100);
   const sort = (searchParams.get('sort') || 'newest') as 'newest' | 'most_relevant';
   const sortMap = {
-    newest: reviewSort.NEWEST,
-    most_relevant: reviewSort.MOST_RELEVANT
+    newest: gplay.sort.NEWEST,
+    most_relevant: gplay.sort.RATING
   } as const;
 
   try {
-    const reviews = await fetchReviews({
+    const reviews = await gplay.reviews({
       appId: bundleId,
-      sort: sortMap[sort] ?? reviewSort.NEWEST,
+      sort: sortMap[sort] ?? gplay.sort.NEWEST,
       num: max
     });
 
