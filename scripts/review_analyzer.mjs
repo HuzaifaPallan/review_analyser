@@ -2,7 +2,7 @@
 import fs from 'fs';
 import path from 'path';
 import minimist from 'minimist';
-import * as gplay from 'google-play-scraper';
+import { app as fetchApp, reviews as fetchReviews, sort as reviewSort } from 'google-play-scraper';
 
 const args = minimist(process.argv.slice(2), {
   string: ['url', 'out', 'sort'],
@@ -22,20 +22,20 @@ if (!appIdMatch) {
 const appId = appIdMatch[1];
 
 const sortMap = {
-  newest: gplay.sort.NEWEST,
-  most_relevant: gplay.sort.MOST_RELEVANT
+  newest: reviewSort.NEWEST,
+  most_relevant: reviewSort.MOST_RELEVANT
 };
 
 async function fetchReviews() {
   try {
     console.log(`Fetching app info for "${appId}"...`);
-    const appInfo = await gplay.app({ appId });
+    const appInfo = await fetchApp({ appId });
     console.log(`Title: ${appInfo.title} — Developer: ${appInfo.developer}`);
 
     console.log(`Fetching up to ${args.max} reviews sorted by ${args.sort}...`);
-    const reviews = await gplay.reviews({
+    const reviews = await fetchReviews({
       appId,
-      sort: sortMap[args.sort] || gplay.sort.NEWEST,
+      sort: sortMap[args.sort] || reviewSort.NEWEST,
       num: args.max
     });
 

@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server';
-import * as gplay from 'google-play-scraper';
+import { app as fetchApp } from 'google-play-scraper';
 
 type Params = { params: { bundleId: string } };
 
 export async function GET(_req: Request, { params }: Params) {
   const { bundleId } = params;
   try {
-    const app = await gplay.app({ appId: bundleId, throttle: 1 });
+    const app = await fetchApp({ appId: bundleId, throttle: 1 });
     return NextResponse.json({
       title: app.title,
       summary: app.summary,
